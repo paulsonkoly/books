@@ -7,5 +7,9 @@ gem 'sinatra-contrib'
 gem 'sequel'
 gem 'sqlite3'
 
+group :development do
+  gem 'pry'
+end
+
 # Specify your gem's dependencies in books.gemspec
 gemspec
