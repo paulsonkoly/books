@@ -2,7 +2,8 @@ require 'sinatra'
 require 'sinatra/json'
 
 class ApplicationController < Sinatra::Base
+  set :root, File.join(File.dirname(__FILE__), '..')
   get '/' do
-    'hello'
+    erb :index
   end
 end
