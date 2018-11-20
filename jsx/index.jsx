@@ -20,8 +20,6 @@ class Root extends React.Component {
 
   handleBookSubmit(newBook) {
     const books = this.state.books;
-    this.setState({ books: [newBook].concat(books) })
-
     fetch('http://localhost:9292/books', {
       method: 'POST',
       headers: {
@@ -29,7 +27,9 @@ class Root extends React.Component {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(newBook)
-    });
+    })
+      .then(response => response.json())
+      .then(data => this.setState({ books: [data].concat(books) }));
   }
 
   handleBookDelete(book_id) {

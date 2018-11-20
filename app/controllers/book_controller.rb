@@ -1,14 +1,15 @@
 require 'application_controller'
 require 'books'
-
 class BookController < ApplicationController
   get('/') { json Books::Book.order_by(Sequel.desc(:id)) }
 
   post('/') do
     book = JSON.parse(request.body.read, symbolize_names: true)
-    Books::Book.insert(book)
+    id = Books::Book.insert(book)
     logger.info "saving #{book}"
-    202
+    book.merge!(id: id)
+    status 201
+    body book.to_json
   end
 
   delete('/:id') do |id|
