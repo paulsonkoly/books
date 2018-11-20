@@ -9,6 +9,7 @@ class Root extends React.Component {
     super(props);
     this.state = { books: [] };
     this.handleBookSubmit = this.handleBookSubmit.bind(this);
+    this.handleBookDelete = this.handleBookDelete.bind(this);
   }
 
   componentWillMount() {
@@ -31,12 +32,17 @@ class Root extends React.Component {
     });
   }
 
+  handleBookDelete(book_id) {
+    const books = this.state.books.filter(book => book.id !== book_id);
+    this.setState({ books: books });
+  }
+
   render() {
     return (
       <div className="container">
         <div className="row">
           <div className="col-sm">
-            <Books data={this.state.books}/>
+            <Books data={this.state.books} onBookDelete={this.handleBookDelete} />
           </div>
           <div className="col-sm">
             <BookForm onSubmit={this.handleBookSubmit}/>

@@ -1,9 +1,13 @@
 import React from 'react';
+import { GoTrashcan } from 'react-icons/go';
 
 function Book(props) {
   return(
     <div className="card m-3">
-      <div className="card-header">{props.title}</div>
+      <div className="card-header">
+        {props.title}
+        <GoTrashcan className="text-danger float-sm-right" onClick={props.onDelete} />
+      </div>
       <div className="card-body">
         <div className="card-title">{props.author}</div>
         <div className="card-text">

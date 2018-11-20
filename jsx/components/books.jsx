@@ -6,9 +6,11 @@ function Books(props) {
     <>
       { props.data.map(book =>
         <Book
+          key={book.id}
           title={book.title}
           author={book.author}
           isbn={book.isbn}
+          onDelete={() => props.onBookDelete(book.id)}
         />
       ) }
     </>
