@@ -20,26 +20,26 @@ class BookForm extends React.Component {
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
-        <div class="form-group row">
-          <label for="title" class="col-sm-2 col-form-label">Title</label>
-          <div class="col-sm-10">
-            <input type="text" class="form-control-plaintext" id="title" name="title" />
+      <form className="m-3" onSubmit={this.handleSubmit}>
+        <div className="form-group row">
+          <label for="title" className="col-sm-2 col-form-label">Title</label>
+          <div className="col-sm-10">
+            <input type="text" className="form-control" id="title" name="title" />
           </div>
         </div>
-        <div class="form-group row">
-          <label for="author" class="col-sm-2 col-form-label">Author</label>
-          <div class="col-sm-10">
-            <input type="text" class="form-control-plaintext" id="author" name="author" />
+        <div className="form-group row">
+          <label for="author" className="col-sm-2 col-form-label">Author</label>
+          <div className="col-sm-10">
+            <input type="text" className="form-control" id="author" name="author" />
           </div>
         </div>
-        <div class="form-group row">
-          <label for="isbn" class="col-sm-2 col-form-label">ISBN</label>
-          <div class="col-sm-10">
-            <input type="text" class="form-control-plaintext" id="isbn" name="isbn" />
+        <div className="form-group row">
+          <label for="isbn" className="col-sm-2 col-form-label">ISBN</label>
+          <div className="col-sm-10">
+            <input type="text" className="form-control" id="isbn" name="isbn" />
           </div>
         </div>
-        <button type="submit" class="btn btn-primary mb-2">Create book</button>
+        <button type="submit" className="btn btn-primary mb-2">Create book</button>
       </form>
     );
   }

@@ -33,9 +33,15 @@ class Root extends React.Component {
 
   render() {
     return (
-      <div>
-        <BookForm onSubmit={this.handleBookSubmit}/>
-        <Books data={this.state.books}/>
+      <div className="container">
+        <div className="row">
+          <div className="col-sm">
+            <Books data={this.state.books}/>
+          </div>
+          <div className="col-sm">
+            <BookForm onSubmit={this.handleBookSubmit}/>
+          </div>
+        </div>
       </div>
     );
   }
