@@ -5,6 +5,17 @@ import Books from './components/books.jsx';
 import BookForm from './components/bookForm.jsx';
 
 class Root extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { books: [] };
+  }
+
+  componentWillMount() {
+    fetch('http://localhost:9292/books')
+      .then(response => response.json())
+      .then(data => this.setState({ books: data }));
+  }
+
   handleBookSubmit(data) {
     console.log({
       title: data.get('title'),
@@ -17,7 +28,7 @@ class Root extends React.Component {
     return (
       <div>
         <BookForm onSubmit={this.handleBookSubmit}/>
-        <Books />
+        <Books data={this.state.books}/>
       </div>
     );
   }
