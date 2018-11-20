@@ -35,6 +35,10 @@ class Root extends React.Component {
   handleBookDelete(book_id) {
     const books = this.state.books.filter(book => book.id !== book_id);
     this.setState({ books: books });
+
+    fetch(`http://localhost:9292/books/${book_id}`, {
+      method: 'DELETE'
+    });
   }
 
   render() {

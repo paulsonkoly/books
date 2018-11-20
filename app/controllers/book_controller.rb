@@ -8,6 +8,12 @@ class BookController < ApplicationController
     book = JSON.parse(request.body.read, symbolize_names: true)
     Books::Book.insert(book)
     logger.info "saving #{book}"
-    201
+    202
+  end
+
+  delete('/:id') do |id|
+    book = Books::Book.find(id: id)
+    book.delete if book
+    202
   end
 end
