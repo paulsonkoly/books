@@ -9,8 +9,13 @@ class BookForm extends React.Component {
   handleSubmit(event) {
     event.preventDefault();
     const data = new FormData(event.target);
+    const newBook = {
+      title: data.get('title'),
+      author: data.get('author'),
+      isbn: data.get('isbn'),
+    };
 
-    this.props.onSubmit(data);
+    this.props.onSubmit(newBook);
   }
 
   render() {

@@ -8,6 +8,7 @@ class Root extends React.Component {
   constructor(props) {
     super(props);
     this.state = { books: [] };
+    this.handleBookSubmit = this.handleBookSubmit.bind(this);
   }
 
   componentWillMount() {
@@ -16,12 +17,9 @@ class Root extends React.Component {
       .then(data => this.setState({ books: data }));
   }
 
-  handleBookSubmit(data) {
-    console.log({
-      title: data.get('title'),
-      author: data.get('author'),
-      isbn: data.get('isbn')
-    });
+  handleBookSubmit(newBook) {
+    const books = this.state.books;
+    this.setState({ books: [newBook].concat(books) })
   }
 
   render() {
