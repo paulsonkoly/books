@@ -1,10 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import Books from './components/books.jsx';
+
 class Root extends React.Component {
   render() {
     return (
-      <div>Hello world from React!</div>
+      <div><Books /></div>
     );
   }
 }
