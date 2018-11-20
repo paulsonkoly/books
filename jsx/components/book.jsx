@@ -6,7 +6,10 @@ function Book(props) {
     <div className="card m-3">
       <div className="card-header">
         {props.title}
-        <GoTrashcan className="text-danger float-sm-right" onClick={props.onDelete} />
+        <GoTrashcan
+          className="text-danger float-sm-right c-pointer"
+          onClick={props.onDelete}
+        />
       </div>
       <div className="card-body">
         <div className="card-title">{props.author}</div>
