@@ -20,6 +20,15 @@ class Root extends React.Component {
   handleBookSubmit(newBook) {
     const books = this.state.books;
     this.setState({ books: [newBook].concat(books) })
+
+    fetch('http://localhost:9292/books', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(newBook)
+    });
   }
 
   render() {
