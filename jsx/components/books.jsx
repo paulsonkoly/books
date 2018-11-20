@@ -11,7 +11,6 @@ class Books extends React.Component {
     fetch('http://localhost:9292/books')
       .then(response => response.json())
       .then(data => this.setState({ books: data }));
-    console.log(this.state);
   }
 
   render() {
