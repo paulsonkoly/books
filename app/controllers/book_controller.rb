@@ -5,12 +5,18 @@ class BookController < ApplicationController
   get('/') { json Books::Book.order_by(Sequel.desc(:id)) }
 
   post('/') do
-    book = JSON.parse(request.body.read, symbolize_names: true)
-    id = Books::Book.insert(book)
-    logger.info "saving #{book}"
-    book.merge!(id: id)
-    status 201
-    body book.to_json
+    begin
+      book = JSON.parse(request.body.read, symbolize_names: true)
+      id = Books::Book.insert(book)
+    rescue Sequel::UniqueConstraintViolation
+      halt 422, 'unique constraint violation'
+    rescue JSON::ParserError
+      halt 400, 'bad json'
+    else
+      book.merge!(id: id)
+      status 201
+      body book.to_json
+    end
   end
 
   delete('/:id') do |id|
