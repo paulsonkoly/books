@@ -1,34 +1,50 @@
 # Books
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/books`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+An example single page application using React with ruby Sinatra back end. Javascript is served from a bundle under app/public, and it's created by rollup. It contains adding books to the back-end database via JSON posts, form validation, displaying new data on the same page, and an animated user friendly interface themed with bootstrap.
 
 ## Installation
 
-Add this line to your application's Gemfile:
+This application is a single page sinatra web app packaged with bundler.
 
-```ruby
-gem 'books'
+```bash
+cd books
+bundle install
 ```
 
 And then execute:
 
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install books
-
-## Usage
-
-TODO: Write usage instructions here
+```shell
+bundle exec rackup
+```
 
 ## Development
 
-After checking out the repo, run `bin/setup` to install dependencies. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+The javascript development flow uses rollup. Install dependencies inside the jsx:
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+```shell
+cd jsx
+npm install
+```
+
+and then run rollup to compile a new js bundle:
+
+```
+npx rollup -c
+```
+
+The back end uses the following libraries:
+
+  * sinatra
+  * sequel
+  * sqlite3
+
+The frontend makes use of
+
+  * jsx (compiled with babel)
+  * react
+  * rollup
+  * classnames
+  * react-icons
 
 ## Contributing
 
