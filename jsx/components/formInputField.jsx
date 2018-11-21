@@ -4,8 +4,9 @@ import classNames from 'classnames';
 function FormInputField(props) {
   const name = props.name;
   const children = props.children;
-  const valid = props.isValid && props.isValid();
-  const invalid = props.isValid && ! props.isValid();
+  const feedback = props.feedback;
+  const valid = feedback && props.isValid && props.isValid();
+  const invalid = feedback && props.isValid && ! props.isValid();
   const value = props.value;
   const classes = classNames(
     'form-control',
