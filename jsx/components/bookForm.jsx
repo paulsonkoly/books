@@ -1,5 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
+import FormInputField from './formInputField.jsx';
 
 class BookForm extends React.Component {
   constructor(props) {
@@ -35,8 +36,7 @@ class BookForm extends React.Component {
     );
   }
 
-  isbnValid() {
-    const isbn = this.state.book.isbn;
+  isbnValid(isbn) {
     return (isbn.length != 0);
   }
 
@@ -45,11 +45,12 @@ class BookForm extends React.Component {
   }
 
   formValid() {
-    return(this.isbnValid());
+    const isbn = this.state.book.isbn;
+    return(this.isbnValid(isbn));
   }
 
   render() {
-    let submitClasses = classNames(
+    const submitClasses = classNames(
       'btn',
       'btn-primary',
       'mb-2',
@@ -59,50 +60,29 @@ class BookForm extends React.Component {
     return (
       <>
       <form className="m-3" onSubmit={this.handleSubmit}>
-        <div className="form-group row">
-          <label htmlFor="title" className="col-sm-2 col-form-label">Title</label>
-          <div className="col-sm-10">
-            <input
-              type="text"
-              className="form-control"
-              id="title"
-              name="title"
-              value={this.state.book.title}
-              onChange={this.handleFormChange}
-            />
-          </div>
-        </div>
-        <div className="form-group row">
-          <label htmlFor="author" className="col-sm-2 col-form-label">Author</label>
-          <div className="col-sm-10">
-            <input
-              type="text"
-              className="form-control"
-              id="author"
-              name="author"
-              value={this.state.book.author}
-              onChange={this.handleFormChange}
-            />
-          </div>
-        </div>
-        <div className="form-group row">
-          <label htmlFor="isbn" className="col-sm-2 col-form-label">ISBN</label>
-          <div className="col-sm-10">
-            <input
-              type="text"
-              className={ "form-control " + (this.isbnValid() ? 'is-valid' : 'is-invalid') }
-              id="isbn"
-              name="isbn"
-              value={this.state.book.isbn}
-              onChange={this.handleFormChange}
-            />
-            {
-              (this.isbnValid() ? '' :
-                <div className="invalid-feedback">{this.isbnInvalidReason()}</div>
-              )
-            }
-          </div>
-        </div>
+        <FormInputField
+          name="title"
+          value={this.state.book.title}
+          onChange={this.handleFormChange}
+        >
+          Title
+        </FormInputField>
+        <FormInputField
+          name="author"
+          value={this.state.book.author}
+          onChange={this.handleFormChange}
+        >
+          Author
+        </FormInputField>
+        <FormInputField
+          name="isbn"
+          isValid={() => this.isbnValid(this.state.book.isbn)}
+          invalidReason={this.isbnInvalidReason}
+          value={this.state.book.isbn}
+          onChange={this.handleFormChange}
+        >
+          ISBN
+        </FormInputField>
         <button type="submit" className={submitClasses}>Create book</button>
       </form>
       </>
