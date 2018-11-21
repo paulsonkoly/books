@@ -1,5 +1,6 @@
 require 'application_controller'
 require 'books'
+
 class BookController < ApplicationController
   get('/') { json Books::Book.order_by(Sequel.desc(:id)) }
 
