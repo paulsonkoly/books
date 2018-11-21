@@ -1,14 +1,15 @@
 import React from 'react';
+import classNames from 'classnames';
 
 class BookForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      title: '',
-      author: '',
-      isbn: '',
-      isbnValid: false,
-      formErrors: { isbn: 'Please fill in the ISBN' }
+      book: {
+        title: '',
+        author: '',
+        isbn: '',
+      },
     }
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleFormChange = this.handleFormChange.bind(this);
@@ -16,39 +17,45 @@ class BookForm extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    this.props.onSubmit(this.state);
-    this.setState({ title: '', author: '', isbn: '' })
-    window.focus();
+
+    if (this.formValid()) {
+      this.props.onSubmit(this.state.book);
+      this.setState({book: { title: '', author: '', isbn: '' }})
+      window.focus();
+    }
   }
 
   handleFormChange(event) {
     const name = event.target.name;
     const value = event.target.value;
+    const book = this.state.book;
 
     this.setState(
-      { [name]: value },
-      () => { this.validateField(name, value) }
+      { book: Object.assign(book, { [name]: value }) }
     );
   }
 
-  validateField(name, value) {
-    let isbnValid = this.state.isbnValid;
-    let formErrors = this.state.formErrors;
+  isbnValid() {
+    const isbn = this.state.book.isbn;
+    return (isbn.length != 0);
+  }
 
-    switch (name) {
-      case 'isbn':
-        isbnValid = (value.length != 0);
-        formErrors.isbn = isbnValid ? '' : "ISBN can't be empty";
-        break;
-    }
+  isbnInvalidReason() {
+    return ("ISBN can't be empty");
+  }
 
-    this.setState({
-      isbnValid: isbnValid,
-      formErrors: formErrors,
-    });
+  formValid() {
+    return(this.isbnValid());
   }
 
   render() {
+    let submitClasses = classNames(
+      'btn',
+      'btn-primary',
+      'mb-2',
+      { 'disabled': ! this.formValid() },
+    );
+
     return (
       <>
       <form className="m-3" onSubmit={this.handleSubmit}>
@@ -60,7 +67,7 @@ class BookForm extends React.Component {
               className="form-control"
               id="title"
               name="title"
-              value={this.state.title}
+              value={this.state.book.title}
               onChange={this.handleFormChange}
             />
           </div>
@@ -73,7 +80,7 @@ class BookForm extends React.Component {
               className="form-control"
               id="author"
               name="author"
-              value={this.state.author}
+              value={this.state.book.author}
               onChange={this.handleFormChange}
             />
           </div>
@@ -83,20 +90,20 @@ class BookForm extends React.Component {
           <div className="col-sm-10">
             <input
               type="text"
-              className={ "form-control " + (this.state.isbnValid ? 'is-valid' : 'is-invalid') }
+              className={ "form-control " + (this.isbnValid() ? 'is-valid' : 'is-invalid') }
               id="isbn"
               name="isbn"
-              value={this.state.isbn}
+              value={this.state.book.isbn}
               onChange={this.handleFormChange}
             />
             {
-              (this.state.isbnValid ? '' :
-                <div className="invalid-feedback">{this.state.formErrors.isbn}</div>
+              (this.isbnValid() ? '' :
+                <div className="invalid-feedback">{this.isbnInvalidReason()}</div>
               )
             }
           </div>
         </div>
-        <button type="submit" className="btn btn-primary mb-2">Create book</button>
+        <button type="submit" className={submitClasses}>Create book</button>
       </form>
       </>
     );
