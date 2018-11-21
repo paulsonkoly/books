@@ -1,6 +1,6 @@
 # Books
 
-An example single page application using React with ruby Sinatra back end. Javascript is served from a bundle under app/public, and it's created by rollup. It contains adding books to the back-end database via JSON posts, form validation, displaying new data on the same page, and an animated user friendly interface themed with bootstrap.
+An example single page application using React with ruby Sinatra back end. Javascript is served from a bundle under app/public, and it's created by rollup. It contains adding books to the back-end database via JSON posts, form validation, displaying new data on the same page, and a user friendly interface themed with bootstrap.
 
 ## Installation
 
