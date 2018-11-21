@@ -25,7 +25,7 @@ function FormInputField(props) {
           value={value}
           onChange={props.onChange}
         />
-        { (invalid ? <div className="invalid-feedback">{props.invalidReason()}</div> : '') }
+        { (invalid ? <div className="invalid-feedback">{props.invalidReason}</div> : '') }
       </div>
     </div>
   );
