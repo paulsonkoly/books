@@ -1,6 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import FormInputField from './formInputField.jsx';
+import FormError from './formError.jsx';
 
 class BookForm extends React.Component {
   constructor(props) {
@@ -12,19 +13,46 @@ class BookForm extends React.Component {
         isbn: '',
       },
       feedback: [],
+      formError: '',
     }
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleFormChange = this.handleFormChange.bind(this);
+    this.handleDismissError = this.handleDismissError.bind(this);
+  }
+
+  handleSuccesfulSubmit(data) {
+    this.props.onSubmit(data);
+
+    this.setState({
+      book: { title: '', author: '', isbn: '' },
+      feedback: []});
+  }
+
+  handleUnsuccessfulSubmit(error) {
+    this.setState({ formError: error });
   }
 
   handleSubmit(event) {
     event.preventDefault();
 
     if (this.formValid()) {
-      this.props.onSubmit(this.state.book);
-      this.setState({
-        book: { title: '', author: '', isbn: '' },
-        feedback: []})
+      fetch('http://localhost:9292/books', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(this.state.book)
+      })
+        .then(response => {
+          if (! response.ok) throw response;
+
+          return(response.json());
+        })
+        .then(data => this.handleSuccesfulSubmit(data))
+        .catch(error =>
+          error.text().then(message => this.handleUnsuccessfulSubmit(message))
+        )
     }
   }
 
@@ -38,8 +66,13 @@ class BookForm extends React.Component {
 
     this.setState({
       book: Object.assign(book, { [name]: value }),
-      feedback: feedback
+      feedback: feedback,
+      formError: ''
     });
+  }
+
+  handleDismissError() {
+    this.setState({ formError: '' });
   }
 
   isbnValid(isbn) {
@@ -77,6 +110,9 @@ class BookForm extends React.Component {
 
     return (
       <>
+      <FormError onDismiss={this.handleDismissError}>
+        {this.state.formError}
+      </FormError>
       <form className="m-3" onSubmit={this.handleSubmit}>
         <FormInputField
           name="title"
