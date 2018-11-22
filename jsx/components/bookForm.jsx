@@ -12,7 +12,7 @@ class BookForm extends React.Component {
         author: '',
         isbn: '',
       },
-      feedback: [],
+      feedback: new Set([]),
       formError: '',
     }
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -25,7 +25,7 @@ class BookForm extends React.Component {
 
     this.setState({
       book: { title: '', author: '', isbn: '' },
-      feedback: []});
+      feedback: new Set([])});
   }
 
   handleUnsuccessfulSubmit(error) {
@@ -60,9 +60,9 @@ class BookForm extends React.Component {
     const name = event.target.name;
     const value = event.target.value;
     const book = this.state.book;
-    const feedback = [...this.state.feedback];
+    const feedback = new Set(this.state.feedback);
 
-    feedback.push(name);
+    feedback.add(name);
 
     this.setState({
       book: Object.assign(book, { [name]: value }),
@@ -120,7 +120,7 @@ class BookForm extends React.Component {
           onChange={this.handleFormChange}
           isValid={() => this.titleValid(this.state.book.title)}
           invalidReason="Title can't be empty."
-          feedback={ this.state.feedback.includes('title') }
+          feedback={ this.state.feedback.has('title') }
         >
           Title
         </FormInputField>
@@ -130,7 +130,7 @@ class BookForm extends React.Component {
           onChange={this.handleFormChange}
           isValid={() => this.authorValid(this.state.book.author)}
           invalidReason="Author can't be empty."
-          feedback={ this.state.feedback.includes('author') }
+          feedback={ this.state.feedback.has('author') }
         >
           Author
         </FormInputField>
@@ -140,7 +140,7 @@ class BookForm extends React.Component {
           invalidReason="ISBN can only contain digits and '-' and has to be between 13 to 17 characters long"
           value={this.state.book.isbn}
           onChange={this.handleFormChange}
-          feedback={ this.state.feedback.includes('isbn') }
+          feedback={ this.state.feedback.has('isbn') }
         >
           ISBN
         </FormInputField>
