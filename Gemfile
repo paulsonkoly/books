@@ -6,6 +6,8 @@ gem 'sinatra'
 gem 'sinatra-contrib'
 gem 'sequel'
 gem 'sqlite3'
+gem 'graphql'
+gem 'rack-contrib'
 
 group :development do
   gem 'pry'
