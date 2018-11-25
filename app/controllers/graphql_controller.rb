@@ -6,9 +6,7 @@ require 'graphql_endpoint/schema'
 class GraphQLController < ApplicationController
   use Rack::PostBodyContentTypeParser
 
-  get '/' do
-    erb :graphiql
-  end
+  get('/') { erb :graphiql }
 
   post '/' do
     result = Books::GraphQLEndpoint::BooksAppSchema.execute(

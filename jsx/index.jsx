@@ -4,6 +4,8 @@ import ReactDOM from 'react-dom';
 import Books from './components/books.jsx';
 import BookForm from './components/bookForm.jsx';
 
+import graphql_query from './graphql.jsx';
+
 class Root extends React.Component {
   constructor(props) {
     super(props);
@@ -13,9 +15,15 @@ class Root extends React.Component {
   }
 
   componentWillMount() {
-    fetch('http://localhost:9292/books')
-      .then(response => response.json())
-      .then(data => this.setState({ books: data }));
+    graphql_query(`
+    {
+      books {
+        id
+        title
+        author
+        isbn
+      }
+    }`).then(data => this.setState({ books: data.books }));
   }
 
   handleBookSubmit(newBook) {
