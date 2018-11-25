@@ -7,9 +7,9 @@ module Books
       description 'Book object type'
 
       field :id, ! types.ID
-      field :title, types.String
-      field :author, types.String
-      field :isbn, types.String
+      field :title, ! types.String
+      field :author, ! types.String
+      field :isbn, ! types.String
     end
   end
 end
