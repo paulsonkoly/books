@@ -36,9 +36,11 @@ class Root extends React.Component {
     const books = this.state.books.filter(book => book.id !== book_id);
     this.setState({ books: books });
 
-    fetch(`http://localhost:9292/books/${book_id}`, {
-      method: 'DELETE'
-    });
+    graphql_query(`
+    mutation {
+      delete_book(id: ${book_id}) { id }
+    }
+    `);
   }
 
   render() {

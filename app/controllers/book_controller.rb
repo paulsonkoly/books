@@ -16,10 +16,4 @@ class BookController < ApplicationController
       body book.to_json
     end
   end
-
-  delete('/:id') do |id|
-    book = Books::Book.find(id: id)
-    book.delete if book
-    202
-  end
 end
