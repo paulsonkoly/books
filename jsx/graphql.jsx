@@ -8,5 +8,14 @@ export default function graphql_query(query) {
       body: JSON.stringify({query: query})
     })
     .then(response => response.json())
-    .then(data => data.data));
+    .then(data =>
+      {
+        if (data.errors) {
+          throw data.errors;
+        }
+        else {
+          return data.data;
+        }
+      })
+  );
 }

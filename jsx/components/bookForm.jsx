@@ -2,6 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 import FormInputField from './formInputField.jsx';
 import FormError from './formError.jsx';
+import graphql_query from '../graphql.jsx';
 
 class BookForm extends React.Component {
   constructor(props) {
@@ -13,7 +14,7 @@ class BookForm extends React.Component {
         isbn: '',
       },
       feedback: new Set([]),
-      formError: '',
+      formError: [],
     }
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleFormChange = this.handleFormChange.bind(this);
@@ -36,23 +37,22 @@ class BookForm extends React.Component {
     event.preventDefault();
 
     if (this.formValid()) {
-      fetch('http://localhost:9292/books', {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(this.state.book)
-      })
-        .then(response => {
-          if (! response.ok) throw response;
-
-          return(response.json());
-        })
-        .then(data => this.handleSuccesfulSubmit(data))
-        .catch(error =>
-          error.text().then(message => this.handleUnsuccessfulSubmit(message))
-        )
+      graphql_query(`
+        mutation {
+          add_book(
+            title: "${ this.state.book.title }"
+            author: "${ this.state.book.author }"
+            isbn: "${ this.state.book.isbn }"
+          ) {
+            id
+            title
+            author
+            isbn
+          }
+        }
+      `)
+        .catch(errors => this.handleUnsuccessfulSubmit(errors))
+        .then(data => this.handleSuccesfulSubmit(data.add_book));
     }
   }
 
@@ -67,12 +67,12 @@ class BookForm extends React.Component {
     this.setState({
       book: Object.assign(book, { [name]: value }),
       feedback: feedback,
-      formError: ''
+      formError: []
     });
   }
 
   handleDismissError() {
-    this.setState({ formError: '' });
+    this.setState({ formError: [] });
   }
 
   isbnValid(isbn) {
@@ -110,9 +110,9 @@ class BookForm extends React.Component {
 
     return (
       <>
-      <FormError onDismiss={this.handleDismissError}>
-        {this.state.formError}
-      </FormError>
+      <FormError
+        errors={this.state.formError}
+        onDismiss={this.handleDismissError} />
       <form className="m-3" onSubmit={this.handleSubmit}>
         <FormInputField
           name="title"

@@ -2,19 +2,20 @@ import React from 'react';
 import { IoMdCloseCircle } from 'react-icons/io';
 
 function FormError(props) {
-  const message = props.children;
+  const errors = props.errors;
 
-  if (message.length == 0) {
+  if (errors.length == 0) {
     return(<></>);
   }
   else {
+    const messages = errors.map(error => <li>{error.message}</li>);
     return(
       <div className="alert alert-warning m-3" role="alert">
         <IoMdCloseCircle
           className="float-sm-right c-pointer"
           onClick={props.onDismiss}
         />
-        There was an error on the server with the data you provided: { message }
+        <ul>{messages}</ul>
       </div>
     );
   }
