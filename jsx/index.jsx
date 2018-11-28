@@ -14,7 +14,7 @@ class Root extends React.Component {
     this.handleBookDelete = this.handleBookDelete.bind(this);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     graphql_query(`
     {
       books {

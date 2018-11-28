@@ -8,7 +8,7 @@ function FormError(props) {
     return(<></>);
   }
   else {
-    const messages = errors.map(error => <li>{error.message}</li>);
+    const messages = errors.map(error, ix => <li key={ix}>{error.message}</li>);
     return(
       <div className="alert alert-warning m-3" role="alert">
         <IoMdCloseCircle

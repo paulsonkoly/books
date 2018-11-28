@@ -75,29 +75,27 @@ class BookForm extends React.Component {
     this.setState({ formError: [] });
   }
 
-  isbnValid(isbn) {
-    const regexp = /^[\d\-]{13,17}$/;
+  isbnValid() {
+    const isbn = this.state.book.isbn;
+    const regexp = /^[\d-]{13,17}$/;
+
     return (isbn.match(regexp) !== null);
   }
 
-  authorValid(author) {
+  authorValid() {
+    const author = this.state.book.author;
+
     return (author.length != 0);
   }
 
-  titleValid(title) {
+  titleValid() {
+    const title = this.state.book.title;
+
     return (title.length != 0);
   }
 
   formValid() {
-    const isbn = this.state.book.isbn;
-    const title = this.state.book.title;
-    const author = this.state.book.author;
-
-    return(
-      this.isbnValid(isbn) &&
-      this.authorValid(author) &&
-      this.titleValid(title)
-    );
+    return(this.isbnValid() && this.authorValid() && this.titleValid());
   }
 
   render() {
@@ -118,7 +116,7 @@ class BookForm extends React.Component {
           name="title"
           value={this.state.book.title}
           onChange={this.handleFormChange}
-          isValid={() => this.titleValid(this.state.book.title)}
+          isValid={() => this.titleValid()}
           invalidReason="Title can't be empty."
           feedback={ this.state.feedback.has('title') }
         >
@@ -128,7 +126,7 @@ class BookForm extends React.Component {
           name="author"
           value={this.state.book.author}
           onChange={this.handleFormChange}
-          isValid={() => this.authorValid(this.state.book.author)}
+          isValid={this.authorValid}
           invalidReason="Author can't be empty."
           feedback={ this.state.feedback.has('author') }
         >
@@ -136,10 +134,10 @@ class BookForm extends React.Component {
         </FormInputField>
         <FormInputField
           name="isbn"
-          isValid={() => this.isbnValid(this.state.book.isbn)}
-          invalidReason="ISBN can only contain digits and '-' and has to be between 13 to 17 characters long"
           value={this.state.book.isbn}
           onChange={this.handleFormChange}
+          isValid={this.isbnValid}
+          invalidReason="ISBN can only contain digits and '-' and has to be between 13 to 17 characters long"
           feedback={ this.state.feedback.has('isbn') }
         >
           ISBN
