@@ -126,7 +126,7 @@ class BookForm extends React.Component {
           name="author"
           value={this.state.book.author}
           onChange={this.handleFormChange}
-          isValid={this.authorValid}
+          isValid={() => this.authorValid()}
           invalidReason="Author can't be empty."
           feedback={ this.state.feedback.has('author') }
         >
@@ -136,7 +136,7 @@ class BookForm extends React.Component {
           name="isbn"
           value={this.state.book.isbn}
           onChange={this.handleFormChange}
-          isValid={this.isbnValid}
+          isValid={() => this.isbnValid()}
           invalidReason="ISBN can only contain digits and '-' and has to be between 13 to 17 characters long"
           feedback={ this.state.feedback.has('isbn') }
         >
